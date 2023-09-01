@@ -85,8 +85,7 @@ export class AudienceInsightsServiceClient {
    *     API remote host.
    * @param {gax.ClientConfig} [options.clientConfig] - Client configuration override.
    *     Follows the structure of {@link gapicConfig}.
-   * @param {boolean | "rest"} [options.fallback] - Use HTTP fallback mode.
-   *     Pass "rest" to use HTTP/1.1 REST API instead of gRPC.
+   * @param {boolean} [options.fallback] - Use HTTP/1.1 REST mode.
    *     For more information, please check the
    *     {@link https://github.com/googleapis/gax-nodejs/blob/main/client-libraries.md#http11-rest-api-mode documentation}.
    * @param {gax} [gaxInstance]: loaded instance of `google-gax`. Useful if you
@@ -94,7 +93,7 @@ export class AudienceInsightsServiceClient {
    *     HTTP implementation. Load only fallback version and pass it to the constructor:
    *     ```
    *     const gax = require('google-gax/build/src/fallback'); // avoids loading google-gax with gRPC
-   *     const client = new AudienceInsightsServiceClient({fallback: 'rest'}, gax);
+   *     const client = new AudienceInsightsServiceClient({fallback: true}, gax);
    *     ```
    */
   constructor(opts?: ClientOptions, gaxInstance?: typeof gax | typeof gax.fallback) {
@@ -152,7 +151,7 @@ export class AudienceInsightsServiceClient {
     }
     if (!opts.fallback) {
       clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
-    } else if (opts.fallback === 'rest' ) {
+    } else {
       clientHeader.push(`rest/${this._gaxGrpc.grpcVersion}`);
     }
     if (opts.libName && opts.libVersion) {
@@ -803,7 +802,7 @@ export class AudienceInsightsServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   Required. The ID of the customer.
  * @param {google.ads.googleads.v14.services.BasicInsightsAudience} request.baselineAudience
  *   Required. A baseline audience for this report, typically all people in a
@@ -872,7 +871,7 @@ export class AudienceInsightsServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.generateInsightsFinderReport(request, options, callback);
@@ -892,7 +891,7 @@ export class AudienceInsightsServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   Required. The ID of the customer.
  * @param {number[]} request.dimensions
  *   Required. The types of attributes to be returned.
@@ -968,7 +967,7 @@ export class AudienceInsightsServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.listAudienceInsightsAttributes(request, options, callback);
@@ -1064,7 +1063,7 @@ export class AudienceInsightsServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   Required. The ID of the customer.
  * @param {google.ads.googleads.v14.services.InsightsAudience} request.audience
  *   Required. The audience of interest for which insights are being requested.
@@ -1138,7 +1137,7 @@ export class AudienceInsightsServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.generateAudienceCompositionInsights(request, options, callback);

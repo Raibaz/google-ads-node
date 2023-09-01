@@ -83,8 +83,7 @@ export class GoogleAdsFieldServiceClient {
    *     API remote host.
    * @param {gax.ClientConfig} [options.clientConfig] - Client configuration override.
    *     Follows the structure of {@link gapicConfig}.
-   * @param {boolean | "rest"} [options.fallback] - Use HTTP fallback mode.
-   *     Pass "rest" to use HTTP/1.1 REST API instead of gRPC.
+   * @param {boolean} [options.fallback] - Use HTTP/1.1 REST mode.
    *     For more information, please check the
    *     {@link https://github.com/googleapis/gax-nodejs/blob/main/client-libraries.md#http11-rest-api-mode documentation}.
    * @param {gax} [gaxInstance]: loaded instance of `google-gax`. Useful if you
@@ -92,7 +91,7 @@ export class GoogleAdsFieldServiceClient {
    *     HTTP implementation. Load only fallback version and pass it to the constructor:
    *     ```
    *     const gax = require('google-gax/build/src/fallback'); // avoids loading google-gax with gRPC
-   *     const client = new GoogleAdsFieldServiceClient({fallback: 'rest'}, gax);
+   *     const client = new GoogleAdsFieldServiceClient({fallback: true}, gax);
    *     ```
    */
   constructor(opts?: ClientOptions, gaxInstance?: typeof gax | typeof gax.fallback) {
@@ -150,7 +149,7 @@ export class GoogleAdsFieldServiceClient {
     }
     if (!opts.fallback) {
       clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
-    } else if (opts.fallback === 'rest' ) {
+    } else {
       clientHeader.push(`rest/${this._gaxGrpc.grpcVersion}`);
     }
     if (opts.libName && opts.libVersion) {
@@ -808,7 +807,7 @@ export class GoogleAdsFieldServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.resource_name
+ * @param {string} request.resourceName
  *   Required. The resource name of the field to get.
  * @param {object} [options]
  *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
@@ -868,7 +867,7 @@ export class GoogleAdsFieldServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'resource_name': request.resource_name ?? '',
+      'resource_name': request.resourceName ?? '',
     });
     this.initialize();
     return this.innerApiCalls.getGoogleAdsField(request, options, callback);

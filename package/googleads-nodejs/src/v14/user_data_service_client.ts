@@ -88,8 +88,7 @@ export class UserDataServiceClient {
    *     API remote host.
    * @param {gax.ClientConfig} [options.clientConfig] - Client configuration override.
    *     Follows the structure of {@link gapicConfig}.
-   * @param {boolean | "rest"} [options.fallback] - Use HTTP fallback mode.
-   *     Pass "rest" to use HTTP/1.1 REST API instead of gRPC.
+   * @param {boolean} [options.fallback] - Use HTTP/1.1 REST mode.
    *     For more information, please check the
    *     {@link https://github.com/googleapis/gax-nodejs/blob/main/client-libraries.md#http11-rest-api-mode documentation}.
    * @param {gax} [gaxInstance]: loaded instance of `google-gax`. Useful if you
@@ -97,7 +96,7 @@ export class UserDataServiceClient {
    *     HTTP implementation. Load only fallback version and pass it to the constructor:
    *     ```
    *     const gax = require('google-gax/build/src/fallback'); // avoids loading google-gax with gRPC
-   *     const client = new UserDataServiceClient({fallback: 'rest'}, gax);
+   *     const client = new UserDataServiceClient({fallback: true}, gax);
    *     ```
    */
   constructor(opts?: ClientOptions, gaxInstance?: typeof gax | typeof gax.fallback) {
@@ -155,7 +154,7 @@ export class UserDataServiceClient {
     }
     if (!opts.fallback) {
       clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
-    } else if (opts.fallback === 'rest' ) {
+    } else {
       clientHeader.push(`rest/${this._gaxGrpc.grpcVersion}`);
     }
     if (opts.libName && opts.libVersion) {
@@ -809,7 +808,7 @@ export class UserDataServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   Required. The ID of the customer for which to update the user data.
  * @param {number[]} request.operations
  *   Required. The list of operations to be done.
@@ -873,7 +872,7 @@ export class UserDataServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.uploadUserData(request, options, callback);

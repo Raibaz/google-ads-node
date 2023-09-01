@@ -84,8 +84,7 @@ export class OfflineUserDataJobServiceClient {
    *     API remote host.
    * @param {gax.ClientConfig} [options.clientConfig] - Client configuration override.
    *     Follows the structure of {@link gapicConfig}.
-   * @param {boolean | "rest"} [options.fallback] - Use HTTP fallback mode.
-   *     Pass "rest" to use HTTP/1.1 REST API instead of gRPC.
+   * @param {boolean} [options.fallback] - Use HTTP/1.1 REST mode.
    *     For more information, please check the
    *     {@link https://github.com/googleapis/gax-nodejs/blob/main/client-libraries.md#http11-rest-api-mode documentation}.
    * @param {gax} [gaxInstance]: loaded instance of `google-gax`. Useful if you
@@ -93,7 +92,7 @@ export class OfflineUserDataJobServiceClient {
    *     HTTP implementation. Load only fallback version and pass it to the constructor:
    *     ```
    *     const gax = require('google-gax/build/src/fallback'); // avoids loading google-gax with gRPC
-   *     const client = new OfflineUserDataJobServiceClient({fallback: 'rest'}, gax);
+   *     const client = new OfflineUserDataJobServiceClient({fallback: true}, gax);
    *     ```
    */
   constructor(opts?: ClientOptions, gaxInstance?: typeof gax | typeof gax.fallback) {
@@ -151,7 +150,7 @@ export class OfflineUserDataJobServiceClient {
     }
     if (!opts.fallback) {
       clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
-    } else if (opts.fallback === 'rest' ) {
+    } else {
       clientHeader.push(`rest/${this._gaxGrpc.grpcVersion}`);
     }
     if (opts.libName && opts.libVersion) {
@@ -669,7 +668,7 @@ export class OfflineUserDataJobServiceClient {
       auth: this.auth,
       grpc: 'grpc' in this._gaxGrpc ? this._gaxGrpc.grpc : undefined
     };
-    if (opts.fallback === 'rest') {
+    if (opts.fallback) {
       lroOptions.protoJson = protoFilesRoot;
       lroOptions.httpRules = [{selector: 'google.longrunning.Operations.CancelOperation',post: '/v14/{name=customers/*/operations/*}:cancel',body: '*',},{selector: 'google.longrunning.Operations.DeleteOperation',delete: '/v14/{name=customers/*/operations/*}',},{selector: 'google.longrunning.Operations.GetOperation',get: '/v14/{name=customers/*/operations/*}',},{selector: 'google.longrunning.Operations.ListOperations',get: '/v14/{name=customers/*/operations}',},{selector: 'google.longrunning.Operations.WaitOperation',post: '/v14/{name=customers/*/operations/*}:wait',body: '*',}];
     }
@@ -830,7 +829,7 @@ export class OfflineUserDataJobServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   Required. The ID of the customer for which to create an offline user data
  *   job.
  * @param {google.ads.googleads.v14.resources.OfflineUserDataJob} request.job
@@ -899,7 +898,7 @@ export class OfflineUserDataJobServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.createOfflineUserDataJob(request, options, callback);
@@ -921,7 +920,7 @@ export class OfflineUserDataJobServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.resource_name
+ * @param {string} request.resourceName
  *   Required. The resource name of the OfflineUserDataJob.
  * @param {boolean} request.enablePartialFailure
  *   True to enable partial failure for the offline user data job.
@@ -992,7 +991,7 @@ export class OfflineUserDataJobServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'resource_name': request.resource_name ?? '',
+      'resource_name': request.resourceName ?? '',
     });
     this.initialize();
     return this.innerApiCalls.addOfflineUserDataJobOperations(request, options, callback);
@@ -1016,7 +1015,7 @@ export class OfflineUserDataJobServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.resource_name
+ * @param {string} request.resourceName
  *   Required. The resource name of the OfflineUserDataJob to run.
  * @param {boolean} request.validateOnly
  *   If true, the request is validated but not executed. Only errors are
@@ -1081,7 +1080,7 @@ export class OfflineUserDataJobServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'resource_name': request.resource_name ?? '',
+      'resource_name': request.resourceName ?? '',
     });
     this.initialize();
     return this.innerApiCalls.runOfflineUserDataJob(request, options, callback);

@@ -83,8 +83,7 @@ export class GoogleAdsServiceClient {
    *     API remote host.
    * @param {gax.ClientConfig} [options.clientConfig] - Client configuration override.
    *     Follows the structure of {@link gapicConfig}.
-   * @param {boolean | "rest"} [options.fallback] - Use HTTP fallback mode.
-   *     Pass "rest" to use HTTP/1.1 REST API instead of gRPC.
+   * @param {boolean} [options.fallback] - Use HTTP/1.1 REST mode.
    *     For more information, please check the
    *     {@link https://github.com/googleapis/gax-nodejs/blob/main/client-libraries.md#http11-rest-api-mode documentation}.
    * @param {gax} [gaxInstance]: loaded instance of `google-gax`. Useful if you
@@ -92,7 +91,7 @@ export class GoogleAdsServiceClient {
    *     HTTP implementation. Load only fallback version and pass it to the constructor:
    *     ```
    *     const gax = require('google-gax/build/src/fallback'); // avoids loading google-gax with gRPC
-   *     const client = new GoogleAdsServiceClient({fallback: 'rest'}, gax);
+   *     const client = new GoogleAdsServiceClient({fallback: true}, gax);
    *     ```
    */
   constructor(opts?: ClientOptions, gaxInstance?: typeof gax | typeof gax.fallback) {
@@ -150,7 +149,7 @@ export class GoogleAdsServiceClient {
     }
     if (!opts.fallback) {
       clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
-    } else if (opts.fallback === 'rest' ) {
+    } else {
       clientHeader.push(`rest/${this._gaxGrpc.grpcVersion}`);
     }
     if (opts.libName && opts.libVersion) {
@@ -671,7 +670,7 @@ export class GoogleAdsServiceClient {
     // Some of the methods on this service provide streaming responses.
     // Provide descriptors for these.
     this.descriptors.stream = {
-      searchStream: new this._gaxModule.StreamDescriptor(this._gaxModule.StreamType.SERVER_STREAMING, opts.fallback === 'rest')
+      searchStream: new this._gaxModule.StreamDescriptor(this._gaxModule.StreamType.SERVER_STREAMING, !!opts.fallback)
     };
 
     // Put together the default options sent with requests.
@@ -925,7 +924,7 @@ export class GoogleAdsServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   Required. The ID of the customer whose resources are being modified.
  * @param {number[]} request.mutateOperations
  *   Required. The list of operations to perform on individual resources.
@@ -1000,7 +999,7 @@ export class GoogleAdsServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.mutate(request, options, callback);
@@ -1023,7 +1022,7 @@ export class GoogleAdsServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   Required. The ID of the customer being queried.
  * @param {string} request.query
  *   Required. The query string.
@@ -1051,7 +1050,7 @@ export class GoogleAdsServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.searchStream(request, options);
@@ -1074,7 +1073,7 @@ export class GoogleAdsServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   Required. The ID of the customer being queried.
  * @param {string} request.query
  *   Required. The query string.
@@ -1160,7 +1159,7 @@ export class GoogleAdsServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.search(request, options, callback);
@@ -1170,7 +1169,7 @@ export class GoogleAdsServiceClient {
  * Equivalent to `method.name.toCamelCase()`, but returns a NodeJS Stream object.
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   Required. The ID of the customer being queried.
  * @param {string} request.query
  *   Required. The query string.
@@ -1215,7 +1214,7 @@ export class GoogleAdsServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     const defaultCallSettings = this._defaults['search'];
     const callSettings = defaultCallSettings.merge(options);
@@ -1233,7 +1232,7 @@ export class GoogleAdsServiceClient {
  * `for`-`await`-`of` syntax is used with the iterable to get response elements on-demand.
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   Required. The ID of the customer being queried.
  * @param {string} request.query
  *   Required. The query string.
@@ -1279,7 +1278,7 @@ export class GoogleAdsServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     const defaultCallSettings = this._defaults['search'];
     const callSettings = defaultCallSettings.merge(options);

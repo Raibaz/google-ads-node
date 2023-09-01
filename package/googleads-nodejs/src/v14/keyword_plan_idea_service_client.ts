@@ -83,8 +83,7 @@ export class KeywordPlanIdeaServiceClient {
    *     API remote host.
    * @param {gax.ClientConfig} [options.clientConfig] - Client configuration override.
    *     Follows the structure of {@link gapicConfig}.
-   * @param {boolean | "rest"} [options.fallback] - Use HTTP fallback mode.
-   *     Pass "rest" to use HTTP/1.1 REST API instead of gRPC.
+   * @param {boolean} [options.fallback] - Use HTTP/1.1 REST mode.
    *     For more information, please check the
    *     {@link https://github.com/googleapis/gax-nodejs/blob/main/client-libraries.md#http11-rest-api-mode documentation}.
    * @param {gax} [gaxInstance]: loaded instance of `google-gax`. Useful if you
@@ -92,7 +91,7 @@ export class KeywordPlanIdeaServiceClient {
    *     HTTP implementation. Load only fallback version and pass it to the constructor:
    *     ```
    *     const gax = require('google-gax/build/src/fallback'); // avoids loading google-gax with gRPC
-   *     const client = new KeywordPlanIdeaServiceClient({fallback: 'rest'}, gax);
+   *     const client = new KeywordPlanIdeaServiceClient({fallback: true}, gax);
    *     ```
    */
   constructor(opts?: ClientOptions, gaxInstance?: typeof gax | typeof gax.fallback) {
@@ -150,7 +149,7 @@ export class KeywordPlanIdeaServiceClient {
     }
     if (!opts.fallback) {
       clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
-    } else if (opts.fallback === 'rest' ) {
+    } else {
       clientHeader.push(`rest/${this._gaxGrpc.grpcVersion}`);
     }
     if (opts.libName && opts.libVersion) {
@@ -809,7 +808,7 @@ export class KeywordPlanIdeaServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   The ID of the customer with the recommendation.
  * @param {string[]} request.keywords
  *   A list of keywords to get historical metrics.
@@ -828,7 +827,7 @@ export class KeywordPlanIdeaServiceClient {
  * @param {string[]} request.geoTargetConstants
  *   The resource names of the location to target. Maximum is 10.
  *   An empty list MAY be used to specify all targeting geos.
- * @param {google.ads.googleads.v14.enums.KeywordPlanNetworkEnum.KeywordPlanNetwork} request.keyword_planNetwork
+ * @param {google.ads.googleads.v14.enums.KeywordPlanNetworkEnum.KeywordPlanNetwork} request.keywordPlanNetwork
  *   Targeting network.
  *   If not set, Google Search And Partners Network will be used.
  * @param {google.ads.googleads.v14.common.KeywordPlanAggregateMetrics} request.aggregateMetrics
@@ -893,7 +892,7 @@ export class KeywordPlanIdeaServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.generateKeywordHistoricalMetrics(request, options, callback);
@@ -913,7 +912,7 @@ export class KeywordPlanIdeaServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   Required. The ID of the customer.
  * @param {string[]} request.keywords
  *   Required. A list of keywords to group into the provided AdGroups.
@@ -978,7 +977,7 @@ export class KeywordPlanIdeaServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.generateAdGroupThemes(request, options, callback);
@@ -998,7 +997,7 @@ export class KeywordPlanIdeaServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   The ID of the customer.
  * @param {string} request.currencyCode
  *   The currency used for exchange rate conversion.
@@ -1071,7 +1070,7 @@ export class KeywordPlanIdeaServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.generateKeywordForecastMetrics(request, options, callback);
@@ -1092,7 +1091,7 @@ export class KeywordPlanIdeaServiceClient {
  *
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   The ID of the customer with the recommendation.
  * @param {string} request.language
  *   The resource name of the language to target.
@@ -1118,7 +1117,7 @@ export class KeywordPlanIdeaServiceClient {
  *   The server may decide to further limit the number of returned resources.
  *   If the response contains fewer than 10,000 results it may not be assumed
  *   as last page of results.
- * @param {google.ads.googleads.v14.enums.KeywordPlanNetworkEnum.KeywordPlanNetwork} request.keyword_planNetwork
+ * @param {google.ads.googleads.v14.enums.KeywordPlanNetworkEnum.KeywordPlanNetwork} request.keywordPlanNetwork
  *   Targeting network.
  *   If not set, Google Search And Partners Network will be used.
  * @param {number[]} request.keywordAnnotation
@@ -1199,7 +1198,7 @@ export class KeywordPlanIdeaServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     this.initialize();
     return this.innerApiCalls.generateKeywordIdeas(request, options, callback);
@@ -1209,7 +1208,7 @@ export class KeywordPlanIdeaServiceClient {
  * Equivalent to `method.name.toCamelCase()`, but returns a NodeJS Stream object.
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   The ID of the customer with the recommendation.
  * @param {string} request.language
  *   The resource name of the language to target.
@@ -1235,7 +1234,7 @@ export class KeywordPlanIdeaServiceClient {
  *   The server may decide to further limit the number of returned resources.
  *   If the response contains fewer than 10,000 results it may not be assumed
  *   as last page of results.
- * @param {google.ads.googleads.v14.enums.KeywordPlanNetworkEnum.KeywordPlanNetwork} request.keyword_planNetwork
+ * @param {google.ads.googleads.v14.enums.KeywordPlanNetworkEnum.KeywordPlanNetwork} request.keywordPlanNetwork
  *   Targeting network.
  *   If not set, Google Search And Partners Network will be used.
  * @param {number[]} request.keywordAnnotation
@@ -1275,7 +1274,7 @@ export class KeywordPlanIdeaServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     const defaultCallSettings = this._defaults['generateKeywordIdeas'];
     const callSettings = defaultCallSettings.merge(options);
@@ -1293,7 +1292,7 @@ export class KeywordPlanIdeaServiceClient {
  * `for`-`await`-`of` syntax is used with the iterable to get response elements on-demand.
  * @param {Object} request
  *   The request object that will be sent.
- * @param {string} request.customer_id
+ * @param {string} request.customerId
  *   The ID of the customer with the recommendation.
  * @param {string} request.language
  *   The resource name of the language to target.
@@ -1319,7 +1318,7 @@ export class KeywordPlanIdeaServiceClient {
  *   The server may decide to further limit the number of returned resources.
  *   If the response contains fewer than 10,000 results it may not be assumed
  *   as last page of results.
- * @param {google.ads.googleads.v14.enums.KeywordPlanNetworkEnum.KeywordPlanNetwork} request.keyword_planNetwork
+ * @param {google.ads.googleads.v14.enums.KeywordPlanNetworkEnum.KeywordPlanNetwork} request.keywordPlanNetwork
  *   Targeting network.
  *   If not set, Google Search And Partners Network will be used.
  * @param {number[]} request.keywordAnnotation
@@ -1360,7 +1359,7 @@ export class KeywordPlanIdeaServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = this._gaxModule.routingHeader.fromParams({
-      'customer_id': request.customer_id ?? '',
+      'customer_id': request.customerId ?? '',
     });
     const defaultCallSettings = this._defaults['generateKeywordIdeas'];
     const callSettings = defaultCallSettings.merge(options);
